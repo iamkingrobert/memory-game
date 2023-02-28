@@ -17,78 +17,49 @@ const state = {
     loop: null // A variable to store the interval ID for the game loop
 }
 
-// This function shuffles an array by creating a copy of the original array
+//This function shuffles an array by creating a copy of the original array
 const shuffle = array => {
-    const clonedArray = [...array] // Create a shallow copy of the input array
-
-
-// This line starts a for loop that initializes a variable index to the last index of the array clonedArray, and continues to iterate over each element of the array in reverse order until index becomes 0.
-    for (let index = clonedArray.length - 1; index > 0; index--) {
-
-// Within the loop, this line generates a random index between 0 and the current value of index, inclusive. It uses the Math.random() function to get a random floating-point number between 0 and 1, multiplies that number by (index + 1) to set the upper bound of the range, and then rounds down to the nearest integer using Math.floor().
-        const randomIndex = Math.floor(Math.random() * (index + 1))
-
-
-// This line saves the value of the current element at index index in a constant variable original.
-        const original = clonedArray[index]
-
-// This line swaps the value of the element at the current index index with the value of the element at the randomly generated index randomIndex.
-        clonedArray[index] = clonedArray[randomIndex]
-
-
-// This line swaps the value of the element at the randomly generated index randomIndex with the value of the original element that was saved earlier.
-        clonedArray[randomIndex] = original
-    }
-
-// This line returns the shuffled array clonedArray after all the elements have been shuffled.
-    return clonedArray
-
+const clonedArray = [...array]; // Create a shallow copy of the input array
+for (let index = clonedArray.length - 1; index > 0; index--) {
+const randomIndex = Math.floor(Math.random() * (index + 1));
+const original = clonedArray[index];
+clonedArray[index] = clonedArray[randomIndex];
+clonedArray[randomIndex] = original;
 }
+return clonedArray;
+};
 
-
-
-/*This is a function called pickRandom which takes in two parameters - an array and a number of items to pick from that array. It returns an array containing items number of randomly picked items from the original array.
-
-The function first clones the original array to avoid modifying it directly. It then creates an empty array to store the randomly picked items.
-
-The function then runs a for loop items number of times. In each iteration of the loop, it generates a random index within the range of the cloned array's length. It uses this index to pick an item from the array and push it into the randomPicks array. It also removes the picked item from the cloned array to ensure that the same item isn't picked twice.
-
-Finally, the function returns the randomPicks array containing the randomly picked items.*/
+//This function called pickRandom which takes in two parameters - an array and a number of items to pick from that array. It returns an array containing items number of randomly picked items from the original array.
 const pickRandom = (array, items) => {
-    const clonedArray = [...array]
-    const randomPicks = []
-
+    const clonedArray = [...array];
+    const randomPicks = [];
     for (let index = 0; index < items; index++) {
-        const randomIndex = Math.floor(Math.random() * clonedArray.length)
-        
-        randomPicks.push(clonedArray[randomIndex])
-        clonedArray.splice(randomIndex, 1)
+    const randomIndex = Math.floor(Math.random() * clonedArray.length);
+    randomPicks.push(clonedArray[randomIndex]);
+    clonedArray.splice(randomIndex, 1);
     }
-
-    return randomPicks
-}
-
-
-
-/*This is a function called generateGame which takes no parameters. It retrieves the dimension of the game board using an attribute on a selectors.board object. If the dimension is not an even number, it throws an error with a message stating that the dimension must be an even number.*/
-
-const generateGame = () => {
-    const dimensions = selectors.board.getAttribute('data-dimension')
-
+    return randomPicks;
+    };
+    
+    //This function called generateGame which takes no parameters. It retrieves the dimension of the game board using an attribute on a selectors.board object. If the dimension is not an even number, it throws an error with a message stating that the dimension must be an even number.
+    const generateGame = () => {
+    const dimensions = selectors.board.getAttribute('data-dimension');
     if (dimensions % 2 !== 0) {
-        throw new Error("The dimension of the board must be an even number.")
+    throw new Error("The dimension of the board must be an even number.");
     }
-}
-
-
-//This line declares a constant variable named emojis and assigns it an array of ten strings, each representing an emoji.
-const emojis = ['🥔', '🍒', '🥑', '🌽', '🥕', '🍇', '🍉', '🍌', '🥭', '🍍']
-
-/*This line declares a constant variable named picks and assigns it the result of a function pickRandom, which takes two arguments: the emojis array and the number (dimensions * dimensions) / 2.*/
-const picks = pickRandom(emojis, (dimensions * dimensions) / 2)
-
-/*This line declares a constant variable named items and assigns it the result of a function shuffle, which takes an array created by concatenating picks with itself, then shuffles the resulting array.*/
-const items = shuffle([...picks, ...picks])
+    };
+    
+    //This line declares a constant variable named emojis and assigns it an array of ten strings, each representing an emoji.
+    const emojis = ['🥔', '🍒', '🥑', '🌽', '🥕', '🍇', '🍉', '🍌', '🥭', '🍍'];
+    
+    //This line declares a constant variable named dimensions and assigns it the dimension of the board.
+    const dimensions = selectors.board.getAttribute('data-dimension');
+    
+    //This line declares a constant variable named picks and assigns it the result of a function pickRandom, which takes two arguments: the emojis array and the number (dimensions * dimensions) / 2.
+    const picks = pickRandom(emojis, (dimensions * dimensions) / 2);
+    
+    //This line declares a constant variable named items and assigns it the result of a function shuffle, which takes an array created by concatenating picks with itself, then shuffles the resulting array.
+    const items = shuffle([...picks, ...picks]);
 
 
 /*This line declares a constant variable named cards and assigns it a template literal that creates an HTML string representing a game board. The number of columns in the board is determined by the dimensions variable. Each item in the items array is used to populate a card element with a front and back, with the back displaying the item.*/
