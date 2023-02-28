@@ -34,7 +34,7 @@ h2{
 }
 button {
     background: white;
-    color: #FFF;
+    color: var(--first-color);
     border-radius: 5px;
     padding: 10px 20px;
     border: 0;
